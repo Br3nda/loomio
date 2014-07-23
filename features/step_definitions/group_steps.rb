@@ -11,7 +11,9 @@ end
 Given /^I visit create subgroup page$/ do
   find("#groups").click_on("Groups")
   find("#groups").click_on(@group.name)
+  view_screenshot
   click_link("subgroup-new")
+  view_screenshot
 end
 
 Given /^"(.*?)" is a(?: non-admin)?(?: member)? of(?: group)? "(.*?)"$/ do |email, group_name|
