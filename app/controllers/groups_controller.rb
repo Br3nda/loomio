@@ -23,7 +23,7 @@ class GroupsController < GroupBaseController
 
   #for new subgroup form
   def add_subgroup
-    parent = Group.published.find(params[:id])
+    parent = Group.published.find_by(key: params[:id])
     @subgroup = Group.new(parent: parent,
                           is_visible_to_public: parent.is_visible_to_public,
                           discussion_privacy_options: parent.discussion_privacy_options)
