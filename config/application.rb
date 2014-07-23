@@ -24,8 +24,7 @@ module Loomio
     config.autoload_paths += %W(#{config.root}/extras
                                 #{config.root}/app/forms
                                 #{config.root}/app/jobs
-                                #{config.root}/app/services
-                                #{config.root}/app/models/concerns)
+                                #{config.root}/app/services)
     config.autoload_paths += Dir["#{config.root}/app/forms/**/"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
