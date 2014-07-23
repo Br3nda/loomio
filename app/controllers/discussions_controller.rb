@@ -79,7 +79,7 @@ class DiscussionsController < GroupBaseController
     @group = GroupDecorator.new(@discussion.group)
 
     if params[:proposal]
-      @motion = @discussion.motions.find(params[:proposal])
+      @motion = @discussion.motions.find_by_key!(params[:proposal])
     else
       @motion = @discussion.most_recent_motion
     end
