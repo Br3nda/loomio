@@ -36,6 +36,7 @@ Loomio::Application.configure do
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
 
   config.eager_load = false
+  config.roadie.url_options = {host: 'localhost'}
 
   # Use these settings to send mail from gmail. If you use 2-step authentication on
   # your google account, create a new application-specific password and use it in here

@@ -83,6 +83,8 @@ Loomio::Application.configure do
     :host => ENV['SMTP_DOMAIN'],
   }
 
+  config.roadie.url_options = {host: ENV['SMTP_DOMAIN']}
+
   # Store avatars on Amazon S3
   config.paperclip_defaults = {
     :storage => :fog,

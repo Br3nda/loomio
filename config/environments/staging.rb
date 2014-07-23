@@ -60,6 +60,8 @@ Loomio::Application.configure do
     host: ENV['CANONICAL_HOST'] || 'staging.loomio.org',
   }
 
+  config.roadie.url_options = {host: ENV['CANONICAL_HOST']}
+
   if ENV['ENABLE_STAGING_EMAILS']
     # Send emails using SMTP service
     config.action_mailer.delivery_method = :smtp

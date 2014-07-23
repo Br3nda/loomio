@@ -5,9 +5,8 @@
 # files.
 
 require 'cucumber/rails'
-require 'spork'
 
-require 'email_spec' # add this line if you use spork
+require 'email_spec'
 require 'email_spec/cucumber'
 
 require 'cucumber/rspec/doubles'
