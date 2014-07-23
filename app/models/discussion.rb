@@ -12,7 +12,7 @@ class Discussion < ActiveRecord::Base
   scope :last_comment_after, ->(time) { where('last_comment_at > ?', time)}
   scope :order_by_latest_comment, -> { order('last_comment_at DESC') }
 
-  scope :visible_to_public, -> { where(private: false) }
+  scope :visible_to_public, -> { published.where(private: false) }
   scope :not_visible_to_public, -> { where(private: true) }
   scope :with_motions, -> { where("discussions.id NOT IN (SELECT discussion_id FROM motions WHERE id IS NOT NULL)") }
   scope :without_open_motions, -> { where("discussions.id NOT IN (SELECT discussion_id FROM motions WHERE id IS NOT NULL AND motions.closed_at IS NULL)") }

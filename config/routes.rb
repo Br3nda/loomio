@@ -34,7 +34,7 @@ Loomio::Application.routes.draw do
     get   '/', action: 'index'
     get   'size'
     get   'preferences'
-    put   'update_preferences'
+    patch   'update_preferences'
     match 'mark_as_read', via: [:get, :post]
     match 'mark_all_as_read/:id', action: 'mark_all_as_read', as: :mark_all_as_read, via: [:get, :post]
     match 'unfollow', via: [:get, :post]
@@ -80,15 +80,14 @@ Loomio::Application.routes.draw do
       end
 
       resources :membership_requests, only: [:create, :new]
-      #get :membership_requests,  to: 'manage_membership_requests#index', as: 'membership_requests'
+      get :membership_requests,  to: 'manage_membership_requests#index', as: 'manage_membership_requests'
     end
   end
 
   scope module: :groups, path: 'g', slug: slug_regex do
     get    ':id(/:slug)', action: 'show' #, as: :group
-    put    ':id(/:slug)', action: 'update'
+    patch    ':id(/:slug)', action: 'update'
     delete ':id(/:slug)', action: 'destroy'
-
     post 'archive/:id',  action: 'archive', as: :archive_group
   end
 
@@ -103,7 +102,7 @@ Loomio::Application.routes.draw do
 
   constraints(GroupSubdomainConstraint) do
     get '/' => 'groups#show'
-    put '/' => 'groups#update'
+    patch '/' => 'groups#update'
   end
 
   delete 'membership_requests/:id/cancel', to: 'groups/membership_requests#cancel', as: :cancel_membership_request
@@ -112,16 +111,15 @@ Loomio::Application.routes.draw do
     resources :votes, only: [:new, :create, :update]
     member do
       get :history
-      put :close
-      put :create_outcome
-      post :update_outcome
-      put :edit_close_date
+      patch :close
+      patch :create_outcome
+      post  :update_outcome
     end
   end
 
   scope module: :motions, path: 'm', slug: slug_regex do
     get    ':id(/:slug)', action: 'show', as: :motion
-    put    ':id(/:slug)', action: 'update'
+    patch  ':id(/:slug)', action: 'update'
     delete ':id(/:slug)', action: 'destroy'
   end
 
@@ -141,7 +139,7 @@ Loomio::Application.routes.draw do
 
   scope module: :discussions, path: 'd', slug: slug_regex do
     get    ':id(/:slug)', action: 'show' #,    as: :discussion
-    put    ':id(/:slug)', action: 'update'
+    patch  ':id(/:slug)', action: 'update'
     delete ':id(/:slug)', action: 'destroy'
 
     post ':id/preview_version/(:version_id)', action: 'preview_version', as: 'preview_version_discussion'
@@ -183,15 +181,15 @@ Loomio::Application.routes.draw do
     get 'autocomplete_contacts' => 'contacts#autocomplete'
 
     scope module: :email_preferences do
-      get '/email_preferences', action: 'edit',   as: :email_preferences
-      put '/email_preferences', action: 'update', as: :update_email_preferences
-      get '/mark_summary_email_as_read', action: 'mark_summary_email_as_read', as: :mark_summary_email_as_read
+      get   '/email_preferences', action: 'edit',   as: :email_preferences
+      patch '/email_preferences', action: 'update', as: :update_email_preferences
+      get   '/mark_summary_email_as_read', action: 'mark_summary_email_as_read', as: :mark_summary_email_as_read
     end
   end
 
   scope module: :users, path: 'u' do
     get ':id(/:slug)', action: 'show',    slug: slug_regex, as: :user
-    put ':id(/:slug)', action: 'update',  slug: slug_regex
+    patch ':id(/:slug)', action: 'update',  slug: slug_regex
   end
 
   match '/announcements/:id/hide', to: 'announcements#hide', as: 'hide_announcement', via: [:get, :post]

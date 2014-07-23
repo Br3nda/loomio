@@ -16,6 +16,7 @@
 //= require lib/jstz-1.0.4.min
 //= require lib/jquery.sparkline.min
 //= require lib/jquery.html5-placeholder-shim
+//= require lib/jquery.placeholder
 //= require lib/jquery.netchanger.min
 //= require lib/jquery.safetynet
 //= require lib/bootstrap2-datetimepicker
