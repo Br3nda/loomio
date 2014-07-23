@@ -16,7 +16,6 @@ end
 
 Then /^I should see the proposal in the list of previous proposals$/ do
   find('#previous-proposals').should have_content(@motion.name)
-  view_screenshot
 end
 
 Then /^I should not see a link to close the proposal$/ do
