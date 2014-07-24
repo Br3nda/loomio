@@ -1,4 +1,5 @@
 class Vote < ActiveRecord::Base
+  include IsTranslatable
 
   class UserCanVoteValidator < ActiveModel::EachValidator
     def validate_each(object, attribute, value)

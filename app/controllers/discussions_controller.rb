@@ -76,7 +76,7 @@ class DiscussionsController < GroupBaseController
   end
 
   def show
-    @group = GroupDecorator.new(@discussion.group)
+    @group = @discussion.group
 
     if params[:proposal]
       @motion = @discussion.motions.find_by_key!(params[:proposal])
@@ -130,7 +130,7 @@ class DiscussionsController < GroupBaseController
     else
       @motion = Motion.new
       @motion.discussion = @discussion
-      @group = GroupDecorator.new(@discussion.group)
+      @group = @discussion.group
       render 'motions/new'
     end
   end

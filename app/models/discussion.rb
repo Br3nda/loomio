@@ -4,6 +4,7 @@ class Discussion < ActiveRecord::Base
   paginates_per PER_PAGE
 
   include ReadableUnguessableUrls
+  include IsTranslatable
 
   scope :archived, -> { where('archived_at is not null') }
   scope :published, -> { where(archived_at: nil, is_deleted: false) }

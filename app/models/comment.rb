@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
   include Twitter::Extractor
+  include IsTranslatable
 
   has_paper_trail
   is_translatable on: :body

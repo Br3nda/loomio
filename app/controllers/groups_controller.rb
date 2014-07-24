@@ -80,7 +80,6 @@ class GroupsController < GroupBaseController
   end
 
   def show
-    @group = GroupDecorator.new @group
     @discussion = Discussion.new(group_id: @group.id)
 
     @discussions = GroupDiscussionsViewer.for(group: @group, user: current_user).

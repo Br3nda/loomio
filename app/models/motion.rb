@@ -20,6 +20,7 @@ class Motion < ActiveRecord::Base
   validates_length_of :name, maximum: 250
   validates_length_of :outcome, maximum: 250
 
+  include IsTranslatable
   is_translatable on: [:name, :description]
 
   include PgSearch
