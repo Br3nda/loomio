@@ -2,10 +2,10 @@ require 'http_accept_language'
 
 module LocalesHelper
   LANGUAGES = {'English' => :en,
-               'български' => :bg,
+               'български' => :bg_BG,
                'Català' => :ca,
                'čeština' => :cs,
-               '正體中文' => :zh, #zh-Hant, Chinese (traditional), Taiwan
+               '正體中文' => :zh_TW, #zh-Hant, Chinese (traditional), Taiwan
                'Deutsch' => :de,
                'Español' => :es,
                'ελληνικά' => :el,
@@ -15,10 +15,11 @@ module LocalesHelper
                '日本語' => :ja,
                '한국어' => :ko,
                'മലയാളം' => :ml,
-               'Nederlands' => :nl,
-               'Português (Brasil)' => :pt,
+               'Nederlands' => :nl_NL,
+               'Português (Brasil)' => :pt_BR,
                'română' => :ro,
-               'srpski' => :sr,
+               'Srpski' => :sr,
+               'Srpski - Ćirilica' => :sr_RS,
                'Svenska' => :sv,
                'Tiếng Việt' => :vi,
                'Türkçe' => :tr,
@@ -27,11 +28,11 @@ module LocalesHelper
   EXPERIMENTAL_LANGUAGES = {'Chinese (Mandarin)' => :cmn,
                             'Italiano' => :it,
                             'తెలుగు' => :te,
-                            'Gaelic (Irish)' => :ga,
+                            'Gaelic (Irish)' => :ga_IE,
                             'Esperanto' => :eo,
                             'Telugu' => :te,
                             'khmer' => :km,
-                            'Belarusian' => :be,
+                            'Belarusian' => :be_BY,
                             'Macedonian' => :mk }
 
   def locale_name(locale)
