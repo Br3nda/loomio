@@ -2,10 +2,6 @@
 
 namespace :languages do
   LOGIN = { basic_auth: {username: ENV['TRANSIFEX_USERNAME'], password: ENV['TRANSIFEX_PASSWORD']} }
-  DIALECT_OVERRIDES = { 'pt' => 'pt_BR',
-                        'ga' => 'ga_IE',
-                        'sr' => 'sr',
-                        'es' => 'es' }
 
   RESOURCES = { 'github-linked-version' => 'en.yml' ,
                  'frontpageenyml' => 'frontpage.en.yml' }
@@ -15,31 +11,28 @@ namespace :languages do
 
   task :update => :environment do
     language_info = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/languages', LOGIN)
-    languages_hash = build_languages_hash(language_info)
+    locales = languages_array(language_info)
+    puts "current languages = #{locales}"
 
     # note we're only fetching stats on the Main resource
     language_stats = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/resource/github-linked-version/stats', LOGIN)
 
-    puts "current languages = #{languages_hash.keys}"
-    check_all_languages_for_competition(languages_hash)
 
-    languages_hash.keys.each do |language|
-      dialect = decide_dialect(language, languages_hash)
-
-      printf '%20s %16s', cyan(dialect), status(dialect, language_stats)
+    locales.each do |locale|
+      printf '%20s %16s', cyan(locale), status(locale, language_stats)
 
       RESOURCES.keys.each do |resource|
-        update(dialect, resource)
+        update(locale, resource)
       end
-
       print "\n"
     end
 
     print "\n"
-    Rake::Task["languages:check_variables"].invoke
+    # Rake::Task["languages:check_variables"].invoke
     print "\n"
     print "\n"
     puts "Remember to check EXPERIMENTAL_LANGUAGES array ^_^"
+    print "\n"
   end
 
   task :check_variables => :environment do
@@ -102,42 +95,37 @@ end
 
 ##############
 
-def update(lang_code, resource)
-  simplified_language = lang_code.split('_')[0]
-  filename = RESOURCES[resource].chomp('en.yml') + "#{simplified_language}.yml"
+def update(locale, resource)
+  filename = RESOURCES[resource].chomp('en.yml') + "#{locale}.yml"
 
   response = HTTParty.get("http://www.transifex.com/api/2/project/loomio-1/resource/#{resource}/translation/#{lang_code}", LOGIN)
 
   if response.present? && content = response['content']
-
-    content = content.gsub("#{lang_code}:", "#{simplified_language}:")
-
-
     target = File.open("config/locales/#{filename}", 'w')
     target.write(content)
     target.close()
 
     printf "%18s ", grey(filename)
   else
-    puts "ERROR!! -- #{simplified_language} - #{filename}"
+    puts "ERROR!! -- #{locale} - #{filename}"
   end
 end
 
-def status(lang_code, language_stats)
-  simplified_language = lang_code.split('_')[0].to_sym
-  perc_comp_str = percent_complete(lang_code, language_stats)
+def status(locale, language_stats)
+  locale = locale.to_sym
+  perc_comp_str = percent_complete(locale, language_stats)
   perc_comp = perc_comp_str.to_i
     perc_comp_str += " " unless perc_comp == 100
     perc_comp_str += " " if perc_comp < 10
 
-  if AppTranslation.locales.include? simplified_language
+  if LocalesHelper::LANGUAGES.include? locale
     if perc_comp >= THRESHOLDS["Live"] - 5
       "\e[1mLive\e[22m #{perc_comp_str}"
     else
       red("Live #{perc_comp_str}")
     end
 
-  elsif AppTranslation.experimental_locales.include? simplified_language
+  elsif LocalesHelper::EXPERIENTAL_LANGUAGES.include? locale
     if perc_comp >= THRESHOLDS["Live"] - 5
       green("Exp  #{perc_comp_str}")
     else
@@ -153,8 +141,8 @@ def status(lang_code, language_stats)
   end
 end
 
-def percent_complete(lang_code, language_stats)
-  language_stats[lang_code]["completed"]
+def percent_complete(locale, language_stats)
+  language_stats[locale]["completed"]
 end
 
 def green(string)
@@ -173,34 +161,7 @@ def cyan(string)
   "\e[96m#{string}\e[0m"
 end
 
-def build_languages_hash(language_info)
-  languages_hash = {}
-  language_info.each do |l|
-    lang_code = l['language_code']
-    language = lang_code.split('_')[0]
-    if languages_hash[language].nil?
-      languages_hash[language] = [lang_code]
-    else
-      languages_hash[language] += [lang_code]
-    end
-  end
-  languages_hash
+def locale_array(language_info)
+  language_info.map {|l| l['language_code'].to_sym }
 end
 
-def check_all_languages_for_competition(languages_hash)
-  languages_hash.keys.each do |language|
-    check_language_for_competition(language, languages_hash)
-  end
-end
-
-def check_language_for_competition(language, languages_hash)
-  if languages_hash[language].length > 1 && !DIALECT_OVERRIDES.keys.include?(language)
-    raise "there are multiple unresolved dialects for #{language} and we currently don't support this!"
-  end
-end
-
-def decide_dialect(language, languages_hash)
-  check_language_for_competition(language, languages_hash)
-
-  DIALECT_OVERRIDES[language] || languages_hash[language].first
-end
