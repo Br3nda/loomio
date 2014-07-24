@@ -11,7 +11,7 @@ namespace :languages do
 
   task :update => :environment do
     language_info = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/languages', LOGIN)
-    locales = languages_array(language_info)
+    locales = locale_array(language_info)
     puts "current languages = #{locales}"
 
     # note we're only fetching stats on the Main resource
@@ -28,7 +28,7 @@ namespace :languages do
     end
 
     print "\n"
-    # Rake::Task["languages:check_variables"].invoke
+    Rake::Task["languages:check_variables"].invoke
     print "\n"
     print "\n"
     puts "Remember to check EXPERIMENTAL_LANGUAGES array ^_^"
@@ -37,25 +37,25 @@ namespace :languages do
 
   task :check_variables => :environment do
     RESOURCES.values.each do |file|
-      print "CHECKING KEYS AGAINST #{file} \n\n"
+      print "CHECKING KEYS AGAINST #{cyan(file)} \n\n"
 
       source_language_hash = YAML.load(File.read("config/locales/#{file}"))
       keys_with_variables = find_keys_with_variables(source_language_hash).map {|key| key[2..-2] }
 
-      AppTranslation::LANGUAGES.values.each do |language|
+      (LocalesHelper::LANGUAGES.values + LocalesHelper::EXPERIMENTAL_LANGUAGES.values).uniq.each do |locale|
         keys_with_variables.each do |key|
           english_str = I18n.t(key, locale: :en)
-          foreign_str = I18n.t(key, locale: language)
+          foreign_str = I18n.t(key, locale: locale)
           english_variables = parse_for_variables english_str
           foreign_variables = parse_for_variables foreign_str
 
           if english_variables.any? { |var| !foreign_variables.include?(var) }
             bolded_english = english_str.gsub('%{', "\e[1m%{").gsub('}', "}\e[22m")
 
-            print "  #{language.to_s}#{key}\n"
+            print "  #{locale.to_s}#{key}\n"
             print "\t\e[32m#{bolded_english}\e[0m\n"
             print "\t#{foreign_str}\n\n"
-            print "\t\e[30mhttps://www.transifex.com/projects/p/loomio-1/translate/##{language.to_s}/#{RESOURCES.key(file)}/?key=#{key[1..-1]}\e[0m\n\n"
+            print "\t\e[30mhttps://www.transifex.com/projects/p/loomio-1/translate/##{locale.to_s}/#{RESOURCES.key(file)}/?key=#{key[1..-1]}\e[0m\n\n"
           end
         end
       end
@@ -98,7 +98,7 @@ end
 def update(locale, resource)
   filename = RESOURCES[resource].chomp('en.yml') + "#{locale}.yml"
 
-  response = HTTParty.get("http://www.transifex.com/api/2/project/loomio-1/resource/#{resource}/translation/#{lang_code}", LOGIN)
+  response = HTTParty.get("http://www.transifex.com/api/2/project/loomio-1/resource/#{resource}/translation/#{locale}", LOGIN)
 
   if response.present? && content = response['content']
     target = File.open("config/locales/#{filename}", 'w')
@@ -118,18 +118,18 @@ def status(locale, language_stats)
     perc_comp_str += " " unless perc_comp == 100
     perc_comp_str += " " if perc_comp < 10
 
-  if LocalesHelper::LANGUAGES.include? locale
+  if LocalesHelper::LANGUAGES.values.include? locale
     if perc_comp >= THRESHOLDS["Live"] - 5
       "\e[1mLive\e[22m #{perc_comp_str}"
     else
       red("Live #{perc_comp_str}")
     end
 
-  elsif LocalesHelper::EXPERIENTAL_LANGUAGES.include? locale
+  elsif LocalesHelper::EXPERIMENTAL_LANGUAGES.values.include? locale
     if perc_comp >= THRESHOLDS["Live"] - 5
-      green("Exp  #{perc_comp_str}")
+      green(" ~   #{perc_comp_str}")
     else
-     "\e[0mExp  #{perc_comp_str}\e[0m"
+     "\e[0m ~   #{perc_comp_str}\e[0m"
     end
 
   else
@@ -142,7 +142,7 @@ def status(locale, language_stats)
 end
 
 def percent_complete(locale, language_stats)
-  language_stats[locale]["completed"]
+  language_stats.with_indifferent_access[locale]["completed"]
 end
 
 def green(string)
