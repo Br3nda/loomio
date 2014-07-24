@@ -52,10 +52,20 @@ module LocalesHelper
     (LANGUAGES.values + EXPERIMENTAL_LANGUAGES.values).include? locale.to_s
   end
 
-  def language_link_attributes(language)
-    { href: "?&locale=#{language[1]}"  ,
-      title: "#{I18n.t(:change_language, language: language[0])}",
-      text: "#{language[0]}" }
+  def language_options_array
+    options = []
+    LANGUAGES.each_pair do |language, locale|
+      options << [language, current_path_with_locale(locale)]
+    end
+    options
+  end
+
+  def selected_language_option
+    current_path_with_locale(current_locale)
+  end
+
+  def current_path_with_locale(locale)
+    url_for(locale: locale)
   end
 
   def selected_locale

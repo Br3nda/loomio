@@ -1,15 +1,8 @@
 .footer.container.clearfix
   .left
-    .dropup
-      %a.dropdown-toggle{'data-toggle' => 'dropdown', :href => '#'}
-        %span
-          = "#{t(:"simple_form.labels.user.language_preference")}:"
-          = locale_name(current_locale)
-        %b.caret
-      %ul.dropdown-menu
-        - LocalesHelper::LANGUAGES.each do |language|
-          - link_attrs = language_link_attributes(language)
-          %li= link_to link_attrs[:text], link_attrs[:href], title: link_attrs[:title]
+    - unless current_user
+      %select#select-locale
+        = options_for_select language_options_array, selected_language_option
 
     = link_to t(:translate, default: "help translate Loomio!"), 'https://www.loomio.org/d/hB1Oijwv/overview-of-the-translation-process-for-translators'
 
