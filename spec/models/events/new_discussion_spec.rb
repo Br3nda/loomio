@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Events::NewDiscussion do
   let(:discussion){ mock_model(Discussion, group: double(:group), touch: true) }

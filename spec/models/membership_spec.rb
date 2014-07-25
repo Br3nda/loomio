@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Membership do
   let(:membership) { Membership.new }
@@ -9,16 +9,6 @@ describe Membership do
   it { should have_many(:events).dependent(:destroy) }
 
   describe "validation" do
-    it "must have a group" do
-      membership.valid?
-      membership.should have(1).errors_on(:group)
-    end
-
-    it "must have a user" do
-      membership.valid?
-      membership.should have(1).errors_on(:user)
-    end
-
     it "cannot have duplicate memberships" do
       create(:membership, :user => user, :group => group)
       membership.user = user

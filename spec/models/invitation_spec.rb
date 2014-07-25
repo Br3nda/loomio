@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Invitation do
   let(:admin_user){FactoryGirl.create(:admin_user)}

@@ -1,12 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Vote do
   let(:user) { create(:user) }
   let(:group) { create(:group) }
   let(:discussion) { create_discussion group: group, author: user }
   let(:motion) { create(:motion, discussion: discussion) }
-
-  it { should have_many(:events).dependent(:destroy) }
 
   context 'a new vote' do
     subject do

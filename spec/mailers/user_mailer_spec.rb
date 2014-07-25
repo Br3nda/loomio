@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe UserMailer do
   shared_examples_for 'email_meta' do

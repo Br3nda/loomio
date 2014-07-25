@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ApplicationHelper do
   describe 'time_formatted_relative_to_age' do

@@ -1,36 +1,7 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Discussion do
   let(:discussion) { create_discussion }
-
-  it { should have_many(:events).dependent(:destroy) }
-  it { should respond_to(:uses_markdown) }
-  it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:group) }
-  it { should validate_presence_of(:author) }
-  it { should ensure_length_of(:title).
-               is_at_most(150) }
-
-  it "author must belong to group" do
-    discussion = Discussion.new(group: create(:group))
-    discussion.author = create(:user)
-    discussion.should_not be_valid
-  end
-
-  it 'should have comments_count of 0' do
-    discussion.comments_count.should == 0
-  end
-
-  it "group member can add comment" do
-    user = create(:user)
-    discussion.group.add_member! user
-    comment = discussion.add_comment(user, "this is a test comment", uses_markdown: false)
-    discussion.comments.should include(comment)
-  end
-
-  it "automatically populates last_comment_at immediately before creation" do
-    discussion.last_comment_at.to_s.should == discussion.created_at.to_s
-  end
 
   describe ".comment_deleted!" do
     after do

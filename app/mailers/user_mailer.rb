@@ -22,8 +22,6 @@ class UserMailer < BaseMailer
                                                      active_since(@time_start)
     end
 
-    #binding.pry
-
     unless @discussions.empty? or @user.inbox_groups.empty?
       @discussions_by_group = @discussions.group_by(&:group)
       locale = best_locale(user.locale)
@@ -42,10 +40,6 @@ class UserMailer < BaseMailer
     @discussion = comment.discussion
     locale = best_locale(user.locale, comment.author.locale)
     I18n.with_locale(locale) do
-
-      # from Robert Guthrie <notifications@loomio.org>"
-      # reply_to Group of discussion? <d=13&sdf@reply.loomio.org>
-
       mail to: @user.email,
            from: from_user_via_loomio(comment.author),
            reply_to: reply_to_address(discussion: @discussion, user: @user),

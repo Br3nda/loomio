@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe DiscussionsController do
   let(:app_controller) { controller }

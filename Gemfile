@@ -76,6 +76,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
+  gem 'rspec-its'
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'database_cleaner'
@@ -98,12 +99,12 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'email_spec'
   gem 'poltergeist'
-  gem 'webmock'
-  gem 'vcr'
-  gem "codeclimate-test-reporter", require: nil
+  #gem 'webmock'
+  #gem 'vcr'
+  gem "codeclimate-test-reporter", require: false
   gem 'rack_session_access'
 end
 

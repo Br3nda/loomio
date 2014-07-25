@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe MotionsController do
   let(:group) { stub_model(Group, full_name: 'Bobs Bakery', key: 'aAa121') }

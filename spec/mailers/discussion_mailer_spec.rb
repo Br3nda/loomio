@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe DiscussionMailer do
   let(:discussion) { create_discussion }

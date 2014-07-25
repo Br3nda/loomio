@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Group do
   let(:motion) { create(:motion, discussion: discussion) }
@@ -7,30 +7,6 @@ describe Group do
   let(:discussion) { create_discussion }
 
   it { should have_many :discussions }
-
-  context "a new group" do
-    before :each do
-      @group = Group.new
-      @group.valid?
-      @group
-    end
-
-    it "must have a name" do
-      @group.should have(1).errors_on(:name)
-    end
-  end
-
-  describe 'invitations_remaining' do
-    before do
-      @group = Group.new
-    end
-
-    it 'is max_size minus members.count' do
-      @group.max_size = 10
-      @group.should_receive(:memberships_count).and_return 5
-      @group.invitations_remaining.should == 5
-    end
-  end
 
   context "children counting" do
 

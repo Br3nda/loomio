@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Motion do
   let(:discussion) { create_discussion }

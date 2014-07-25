@@ -1,5 +1,5 @@
 require "cancan/matchers"
-require 'spec_helper'
+require 'rails_helper'
 
 describe "User abilities" do
   let(:user) { create(:user) }

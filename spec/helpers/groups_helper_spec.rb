@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe GroupsHelper do
   let(:group) { FactoryGirl.create(:group) }

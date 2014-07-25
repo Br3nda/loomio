@@ -1,18 +1,14 @@
-# encoding: UTF-8
-require 'spec_helper'
+require 'rails_helper'
 
 describe User do
-  let(:user) { create(:user) }
-  let(:group) { create(:group) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:group) { FactoryGirl.create(:group) }
 
   subject do
     user = User.new
     user.valid?
     user
   end
-
-  it { should have_many(:notifications) }
-  it { should respond_to(:uses_markdown) }
 
   it "cannot have invalid avatar_kinds" do
     user.avatar_kind = 'bad'
@@ -66,20 +62,20 @@ describe User do
   it "has authored motions" do
     group.add_member!(user)
     discussion = create_discussion group: group
-    motion = create(:motion, discussion: discussion, author: user)
+    motion = FactoryGirl.create(:motion, discussion: discussion, author: user)
     user.authored_motions.should include(motion)
   end
 
   describe "#voting_motions" do
     it "returns motions that belong to user and are open" do
       discussion = create_discussion group: group
-      motion = create(:motion, author: user, discussion: discussion)
+      motion = FactoryGirl.create(:motion, author: user, discussion: discussion)
       user.voting_motions.should include(motion)
     end
 
     it "should not return motions that belong to the group but are closed'" do
       discussion = create_discussion group: group
-      motion = create(:motion, author: user, discussion: discussion)
+      motion = FactoryGirl.create(:motion, author: user, discussion: discussion)
       MotionService.close(motion)
 
       user.voting_motions.should_not include(motion)
@@ -89,14 +85,14 @@ describe User do
   describe "closed_motions" do
     it "returns motions that belong to the group and are closed" do
       discussion = create_discussion group: group
-      motion = create(:motion, author: user, discussion: discussion)
+      motion = FactoryGirl.create(:motion, author: user, discussion: discussion)
       MotionService.close(motion)
       user.closed_motions.should include(motion)
     end
 
     it "should not return motions that belong to the group but are closed" do
       discussion = create_discussion group: group
-      motion = create(:motion, author: user, discussion: discussion)
+      motion = FactoryGirl.create(:motion, author: user, discussion: discussion)
       user.closed_motions.should_not include(motion)
     end
   end
@@ -298,13 +294,13 @@ describe User do
   describe "#in_same_group_as?(other_user)" do
     it "returns true if user and other_user are in the same group" do
       group.add_member!(user)
-      other_user = create :user
+      other_user = FactoryGirl.create :user
       group.add_member!(other_user)
       user.in_same_group_as?(other_user).should == true
     end
     it "returns false if user and other_user do not share any groups" do
       group.add_member!(user)
-      other_user = create :user
+      other_user = FactoryGirl.create :user
       user.in_same_group_as?(other_user).should == false
     end
   end
