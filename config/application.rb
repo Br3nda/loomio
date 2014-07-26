@@ -43,7 +43,12 @@ module Loomio
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.i18n.fallbacks = true
+    fallback_tree = {
+      :pt => :'pt_BR',
+      :zh => :'zh_TW',
+      :ca => :es
+    }
+    config.i18n.fallbacks = [:en, fallback_tree]
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
