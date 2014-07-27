@@ -20,8 +20,8 @@ end
 Then(/^the group should be listed, open, public only$/) do
   @group.reload
   @group.should be_is_visible_to_public
-  @group.membership_granted_upon_request?.should be_true
-  @group.members_can_add_members.should be_true
+  @group.membership_granted_upon_request?.should be true
+  @group.members_can_add_members.should be true
   @group.should be_public_discussions_only
 end
 
@@ -36,7 +36,7 @@ end
 Then(/^the group should be listed, by request, public and private$/) do
   @group.reload
   @group.should be_is_visible_to_public
-  @group.membership_granted_upon_approval?.should be_true
+  @group.membership_granted_upon_approval?.should be true
   @group.should be_public_or_private_discussions_allowed
 end
 
@@ -51,7 +51,7 @@ end
 Then(/^the group should be listed, by request, private only$/) do
   @group.reload
   @group.should be_is_visible_to_public
-  @group.membership_granted_upon_invitation?.should be_true
+  @group.membership_granted_upon_invitation?.should be true
   @group.should be_private_discussions_only
 end
 
@@ -66,7 +66,7 @@ end
 Then(/^the group should be unlisted, invitation only, prviate discussions only$/) do
   @group.reload
   @group.should be_is_hidden_from_public
-  @group.membership_granted_upon_invitation?.should be_true
+  @group.membership_granted_upon_invitation?.should be true
   @group.should be_private_discussions_only
 end
 
@@ -83,7 +83,7 @@ end
 
 Then(/^the subgroup should be visible to parent group members$/) do
   @subgroup.reload
-  @subgroup.is_visible_to_parent_members?.should be_true
+  @subgroup.is_visible_to_parent_members?.should be true
 end
 
 When(/^I change the group name and description$/) do
@@ -126,8 +126,8 @@ end
 
 Then(/^they should be allowed to do everything$/) do
   @group.reload
-  @group.members_can_add_members.should be_true
-  @group.members_can_edit_discussions.should be_true
+  @group.members_can_add_members.should be true
+  @group.members_can_edit_discussions.should be true
 end
 
 When(/^I disallow the members to do everything$/) do
@@ -139,6 +139,6 @@ end
 
 Then(/^they should be disallowed from doing everything$/) do
   @group.reload
-  @group.members_can_add_members.should be_false
-  @group.members_can_edit_discussions.should be_false
+  @group.members_can_add_members.should be false
+  @group.members_can_edit_discussions.should be false
 end

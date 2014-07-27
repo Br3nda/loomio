@@ -59,7 +59,7 @@ describe Membership do
 
     context do
       before do
-        discussion = create_discussion group: group
+        discussion = create :discussion,  group: group
         @motion = create(:motion, discussion: discussion)
         vote = Vote.new
         vote.user = user
@@ -75,7 +75,7 @@ describe Membership do
 
       it "does not remove user's open votes for other groups" do
         group2 = create(:group)
-        discussion2 = create_discussion group: group2
+        discussion2 = create :discussion, group: group2
         motion2 = create(:motion, author: user, discussion: discussion2 )
         vote = Vote.new
         vote.user = user

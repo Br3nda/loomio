@@ -3,20 +3,8 @@ require 'rails_helper'
 describe Vote do
   let(:user) { create(:user) }
   let(:group) { create(:group) }
-  let(:discussion) { create_discussion group: group, author: user }
+  let(:discussion) { create :discussion, group: group, author: user }
   let(:motion) { create(:motion, discussion: discussion) }
-
-  context 'a new vote' do
-    subject do
-      @vote = Vote.new
-      @vote.valid?
-      @vote
-    end
-
-    it {should have(1).errors_on(:motion)}
-    it {should have(1).errors_on(:user)}
-    it {should have(2).errors_on(:position)}
-  end
 
   context 'user votes' do
     let(:vote) { Vote.create(user: user, motion: motion, position: "no") }
@@ -48,7 +36,7 @@ describe Vote do
   it 'should only accept valid position values' do
     vote = build(:vote, position: 'bad', motion: motion)
     vote.valid?
-    vote.should have(1).errors_on(:position)
+    expect(vote).to have(1).errors_on(:position)
   end
 
   it 'can have a statement' do

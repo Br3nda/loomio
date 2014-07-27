@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe DiscussionMailer do
-  let(:discussion) { create_discussion }
+  let(:discussion) { create :discussion }
   let(:group) { discussion.group }
 
   context 'sending individual email upon new discussion creation' do

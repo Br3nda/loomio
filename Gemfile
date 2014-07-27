@@ -77,6 +77,8 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'rspec-its'
+  gem 'rspec-collection_matchers'
+  gem 'rspec-activemodel-mocks'
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'database_cleaner'
@@ -102,7 +104,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'email_spec'
   gem 'poltergeist'
-  #gem 'webmock'
+  gem 'webmock'
   #gem 'vcr'
   gem "codeclimate-test-reporter", require: false
   gem 'rack_session_access'

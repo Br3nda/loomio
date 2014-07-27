@@ -34,7 +34,14 @@ class Comment < ActiveRecord::Base
 
   alias_method :author, :user
   alias_method :author=, :user=
-  alias_method :author_id, :user_id
+
+  def author_id
+    user_id
+  end
+
+  def is_most_recent?
+    discussion.comments.last == self
+  end
 
   def is_edited?
     edited_at.present?
