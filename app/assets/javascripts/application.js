@@ -43,3 +43,4 @@
 //= require searches
 //= require attachments
 //= require subscriptions
+//= require explore
