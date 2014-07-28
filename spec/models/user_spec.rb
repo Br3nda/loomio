@@ -196,7 +196,7 @@ describe User do
 
   it "sets deleted_at (Time.now) when deactivate! is called" do
     user.deactivate!
-    user.deleted_at.should be true
+    user.deleted_at.should be_present
   end
 
   it "sets subscriptions to false when deactivate! is called" do

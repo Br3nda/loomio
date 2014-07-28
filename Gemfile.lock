@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/gregbell/active_admin.git
-  revision: 27360996837146ebbbf3b3597049b1586542fbeb
+  revision: a8ae008ec9632110bf33443ce7090dfef9cca480
   specs:
     activeadmin (1.0.0.pre)
       arbre (~> 1.0)
@@ -190,7 +190,7 @@ GEM
       net-ssh (>= 2.1.3)
     fog-json (1.0.0)
       multi_json (~> 1.0)
-    fog-softlayer (0.3.10)
+    fog-softlayer (0.3.11)
       fog-core
       fog-json
     font-awesome-sass (4.1.0)
@@ -488,7 +488,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-text (1.9.1)
+    twitter-text (1.9.2)
       unf (~> 0.1.0)
     tzinfo (1.2.1)
       thread_safe (~> 0.1)
