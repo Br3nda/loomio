@@ -23,8 +23,24 @@ ENV["RAILS_ENV"] ||= 'test'
 Capybara.default_selector = :css
 ActionController::Base.allow_rescue = false
 Cucumber::Rails::Database.javascript_strategy = :truncation
-Capybara.default_driver = :rack_test
 Capybara.default_wait_time = 5
+
+require 'capybara/poltergeist'
+
+polter_options = {
+  :phantomjs_options => ['--load-images=no'],
+  js_errors: true,
+  inspector: true,
+  debug: false
+}
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, polter_options)
+end
+
+Capybara.javascript_driver = :poltergeist
+#Capybara.javascript_driver = :selenium
+Capybara.default_driver = :rack_test
 
 ENV['AWS_ACCESS_KEY_ID']="notarealaccesskeyid"
 ENV['AWS_SECRET_ACCESS_KEY']="notarealsecretaccesskey"
