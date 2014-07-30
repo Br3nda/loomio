@@ -3,11 +3,10 @@
 namespace :languages do
   LOGIN = { basic_auth: {username: ENV['TRANSIFEX_USERNAME'], password: ENV['TRANSIFEX_PASSWORD']} }
 
-  RESOURCES = { 'github-linked-version' => 'en.yml' ,
-                 'frontpageenyml' => 'frontpage.en.yml' }
+  RESOURCES = { 'github-linked-version' => 'en.yml',
+                'frontpageenyml'        => 'frontpage.en.yml' }
 
-  THRESHOLDS = { "Live" => 80,
-                 "Exp"  => 40 }
+  THRESHOLDS = { "Live" => 80 }
 
   task :update => :environment do
     language_info = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/languages', LOGIN)
@@ -31,7 +30,7 @@ namespace :languages do
     Rake::Task["languages:check_variables"].invoke
     print "\n"
     print "\n"
-    puts "Remember to check EXPERIMENTAL_LANGUAGES array ^_^"
+    puts "DONE!! ^_^"
     print "\n"
   end
 
@@ -42,7 +41,7 @@ namespace :languages do
       source_language_hash = YAML.load(File.read("config/locales/#{file}"))
       keys_with_variables = find_keys_with_variables(source_language_hash).map {|key| key[2..-2] }
 
-      (LocalesHelper::LANGUAGES.values + LocalesHelper::EXPERIMENTAL_LANGUAGES.values).uniq.each do |locale|
+      LocalesHelper::LANGUAGES.values.each do |locale|
         keys_with_variables.each do |key|
           english_str = I18n.t(key, locale: :en)
           foreign_str = I18n.t(key, locale: locale)
@@ -125,15 +124,8 @@ def status(locale, language_stats)
       red("Live #{perc_comp_str}")
     end
 
-  elsif LocalesHelper::EXPERIMENTAL_LANGUAGES.values.include? locale
-    if perc_comp >= THRESHOLDS["Live"] - 5
-      green(" ~   #{perc_comp_str}")
-    else
-     "\e[0m ~   #{perc_comp_str}\e[0m"
-    end
-
   else
-    if perc_comp >= THRESHOLDS["Exp"] - 5
+    if perc_comp >= THRESHOLDS["Live"] - 10
       green(" ^   #{perc_comp_str}")
     else
        grey(" -   #{perc_comp_str}")
