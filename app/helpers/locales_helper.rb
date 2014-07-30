@@ -1,55 +1,42 @@
 require 'http_accept_language'
 
 module LocalesHelper
-  LANGUAGES = {'English' => :en,
-               'български' => :bg_BG,
-               'Català' => :ca,
-               'čeština' => :cs,
-               '正體中文' => :zh_TW, #zh-Hant, Chinese (traditional), Taiwan
-               'Deutsch' => :de,
-               'Español' => :es,
-               'ελληνικά' => :el,
-               'Français' => :fr,
-               'Indonesian' => :id,
-               'magyar' => :hu,
-               '日本語' => :ja,
-               '한국어' => :ko,
-               'മലയാളം' => :ml,
-               'Nederlands' => :nl_NL,
-               'Português (Brasil)' => :pt_BR,
-               'română' => :ro,
-               'Srpski' => :sr,
-               'Srpski - Ćirilica' => :sr_RS,
-               'Svenska' => :sv,
-               'Tiếng Việt' => :vi,
-               'Türkçe' => :tr,
-               'українська мова' => :uk}
-
-  EXPERIMENTAL_LANGUAGES = {'Chinese (Mandarin)' => :cmn,
-                            'Italiano' => :it,
-                            'తెలుగు' => :te,
-                            'Gaelic (Irish)' => :ga_IE,
-                            'Esperanto' => :eo,
-                            'Telugu' => :te,
-                            'khmer' => :km,
-                            'Belarusian' => :be_BY,
-                            'Macedonian' => :mk }
+  LANGUAGES = { 'English' => :en,
+                'български' => :'bg-BG',
+                'Català' => :ca,
+                'čeština' => :cs,
+                '正體中文' => :'zh-TW', #zh-Hant, Chinese (traditional), Taiwan
+                'Deutsch' => :de,
+                'Español' => :es,
+                'ελληνικά' => :el,
+                'Français' => :fr,
+                'Indonesian' => :id,
+                'magyar' => :hu,
+                '日本語' => :ja,
+                '한국어' => :ko,
+                'മലയാളം' => :ml,
+                'Nederlands' => :'nl-NL',
+                'Português (Brasil)' => :'pt-BR',
+                'port' => :pt,
+                'română' => :ro,
+                'Srpski' => :sr,
+                'Srpski - Ćirilica' => :'sr-RS',
+                'Svenska' => :sv,
+                'Tiếng Việt' => :vi,
+                'Türkçe' => :tr,
+                'українська мова' => :uk }
 
   def locale_name(locale)
-    LANGUAGES.key(locale.to_s)
+    LANGUAGES.key(locale.to_sym)
   end
 
   def supported_locales
     LANGUAGES.values
   end
 
-  def experimental_locales
-    EXPERIMENTAL_LANGUAGES.values
-  end
-
   def valid_locale?(locale)
     return false if locale.blank?
-    (LANGUAGES.values + EXPERIMENTAL_LANGUAGES.values).include? locale.to_s
+    LANGUAGES.values.include? locale.to_sym
   end
 
   def language_options_array
@@ -69,7 +56,7 @@ module LocalesHelper
   end
 
   def selected_locale
-    (params[:locale] || current_user_or_visitor.selected_locale).try(:to_s)
+    params[:locale] || current_user_or_visitor.selected_locale
   end
 
   def locale_selected?
@@ -77,15 +64,16 @@ module LocalesHelper
   end
 
   def detected_locale
+    binding.pry
     (browser_accepted_locales & supported_locales).first
   end
 
   def default_locale
-    I18n.default_locale.to_s
+    I18n.default_locale
   end
 
   def current_locale
-    I18n.locale.to_s
+    I18n.locale
   end
 
   def set_application_locale
@@ -115,7 +103,7 @@ module LocalesHelper
   def browser_accepted_locales
     header = request.env['HTTP_ACCEPT_LANGUAGE']
     parser = HttpAcceptLanguage::Parser.new(header)
-    parser.user_preferred_languages
+    parser.user_preferred_languages.map &:to_sym
   end
 
   def save_detected_locale(user)

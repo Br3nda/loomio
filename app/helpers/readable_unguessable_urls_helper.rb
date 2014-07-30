@@ -57,11 +57,11 @@ module ReadableUnguessableUrlsHelper
   end
 
   def group_path(group, options = {})
-    group_url = group_url(group, options)
+    url = group_url(group, options)
     if host_needed_to_link_to?(group)
-      group_url
+      url
     else
-      uri = URI(group_url)
+      uri = URI(url)
       if uri.query.present?
         "#{uri.path}?#{uri.query}"
       else
