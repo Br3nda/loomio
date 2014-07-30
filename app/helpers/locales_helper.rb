@@ -64,6 +64,7 @@ module LocalesHelper
   end
 
   def detected_locale
+    binding.pry
     (browser_accepted_locales & supported_locales).first
   end
 
