@@ -1,6 +1,4 @@
 fr:
-  explore:
-    go_to_group: "Voir le groupe %{group_name}"
   try_it:
     header: "Essayez Loomio"
     start_a_group: "Commencez un groupe pour prendre des décisions dans votre communauté."
@@ -218,7 +216,6 @@ fr:
     message: "<p>Ceci est <strong>la page du groupe</strong>. Sur la gauche figure une liste des discussions du groupe.</p><p>Quand vous voulez discuter d'un nouveau sujet, démarrer une nouvelle discussion.</p>"
   dashboard_helper_text:
     header: "Bienvenue sur votre page d'accueil"
-    message: "<p>La page d'accueil vous présente toutes les discussions actuelles dans tous vos groupes.</p><p>Vous pouvez démarrer une nouvelle discussion sur un nouveau sujet en cliquant sur le bouton \"démarrer une discussion\".</p>"
   prompt_visitor_to_authenticate:
     header: "Connectez-vous ou rejoignez le groupe pour y participer"
     body: "Si vous êtes un membre de ce groupe, vous devrez vous connecter pour y participer."

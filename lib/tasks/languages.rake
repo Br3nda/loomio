@@ -95,13 +95,14 @@ end
 ##############
 
 def update(locale, resource)
-  filename = RESOURCES[resource].chomp('en.yml') + "#{locale}.yml"
+  fixed_locale = locale.gsub('_', '-')
+  filename = RESOURCES[resource].chomp('en.yml') + "#{fixed_locale}.yml"
 
   response = HTTParty.get("http://www.transifex.com/api/2/project/loomio-1/resource/#{resource}/translation/#{locale}", LOGIN)
 
   if response.present? && content = response['content']
     target = File.open("config/locales/#{filename}", 'w')
-    target.write(content)
+    target.write(content.gsub(locale, fixed_locale))
     target.close()
 
     printf "%18s ", grey(filename)
@@ -154,6 +155,6 @@ def cyan(string)
 end
 
 def locale_array(language_info)
-  language_info.map {|l| l['language_code'].to_sym }
+  language_info.map {|l| l['language_code'] }
 end
 

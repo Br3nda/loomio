@@ -1,6 +1,4 @@
 ro:
-  explore:
-    go_to_group: "Du-te la %{group_name}"
   try_it:
     header: "Incearca Loomio"
     start_a_group: "Formeaza un grup pentru a initia decizii in comunitatea ta."
@@ -220,7 +218,6 @@ ro:
     message: "<p> Aceasta este <strong>pagina grupului</strong>. In partea dreapta este o lista a tuturor discutiilor din acest grup.</p><p> Cand vrei ca grupul sa discute alta tema, porneste o noua discutie.</p>"
   dashboard_helper_text:
     header: "Bine ai venit pe pagina de start"
-    message: "<p> Pagina de start arata toate discutiile curente in grupurile al caror membru esti.</p><p>Poti incepe o noua discutie pe o tema noua apasand butonul \"Incepe o noua discutie.\"</p>"
   prompt_visitor_to_authenticate:
     header: "Autentifica-te sau alatura-te grupului pentru a participa"
     body: "Daca esti membru al acestui grup va trebui sa te autentifici pentru a participa."

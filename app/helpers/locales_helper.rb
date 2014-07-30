@@ -64,7 +64,6 @@ module LocalesHelper
   end
 
   def detected_locale
-    binding.pry
     (browser_accepted_locales & supported_locales).first
   end
 
@@ -83,7 +82,6 @@ module LocalesHelper
   def best_locale
     if user_signed_in?
       best_available_locale
-      binding.pry
     else
       best_cachable_locale
     end

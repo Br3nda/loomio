@@ -1,6 +1,6 @@
 sr:
   explore:
-    go_to_group: "Idi u %{group_name}"
+    header: "Istraži javne grupe"
   try_it:
     header: "Probaj Lumio"
     start_a_group: "Započni grupu da bi donosio odluke u svojoj zajednici."
@@ -233,7 +233,6 @@ sr:
     message: "<p>Ovo je <strong>stranica grupe</strong>. Na levoj strani je spisak svih diskusija u ovoj grupi.</p> <p>Kada želite da krupa diskutuje o drugoj temi, pokrenite novu diskusiju.</p>"
   dashboard_helper_text:
     header: "Dobrodošli na svoju Početnu stranu"
-    message: "<p>Početna stranica Vam predstavlja sve trenutne diskusije iz grupa čiji ste član.</p> <p>Možete da započnete diskusiju na novu temu tako što ćete škljocnuti na ikonu \"Pokreni diskusiju\".</p >"
   prompt_visitor_to_authenticate:
     header: "Prijavi se ili pridruži grupi da učestvuješ"
     body: "Ako ste član ove grupe, morate se prijaviti da učestvujete."
@@ -416,6 +415,7 @@ sr:
   empty_decision_index: "Ova grupa nije donela nikakvu odluku još uvek."
   empty_discussion_list: "Nema aktivnosti u ovoj diskusiji još."
   go_to_add_comment_html: "Da dodate komentar, <a href='%{href}'>Idite na kraj diskusije</a>."
+  comment_by: "Komentar od %{comment_author}"
   discussion_list:
     empty:
       no_discussions: "Nema diskusija ni u jednoj od Vaših grupa."
@@ -1052,6 +1052,7 @@ sr:
     email: "ePoruka"
     start_group: "Pokreni grupu!"
   group_categories:
+    all: "Sve"
     blank: "Nekategorizovano"
     economics: "Ekonomija"
     activist: "Aktivist"
