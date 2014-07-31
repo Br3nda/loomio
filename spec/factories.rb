@@ -77,13 +77,15 @@ FactoryGirl.define do
     association :author, factory: :user
     description 'Fake description'
     discussion
+
     #after(:build) do |motion|
       #motion.group.parent.add_member!(motion.author) if motion.group.parent
       #motion.group.add_member!(motion.author)
     #end
-    #after(:create) do |motion|
-      #motion.group.save
-    #end
+
+    after(:create) do |motion|
+      motion.group.add_member!(motion.author)
+    end
   end
 
   factory :current_motion, class: Motion do

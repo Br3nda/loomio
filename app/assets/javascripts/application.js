@@ -20,10 +20,7 @@
 //= require lib/jquery.netchanger.min
 //= require lib/jquery.safetynet
 //= require lib/bootstrap2-datetimepicker
-//# require jqplot
-//# require jqplot/plugins/pieRenderer
-//# require backbone
-//# require backbone/loomio
+//= require lib/Chart
 //= require modernizr
 //= require bootstrap
 //= require bootstrap-custom
