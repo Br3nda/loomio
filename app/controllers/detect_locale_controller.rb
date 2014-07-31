@@ -5,7 +5,7 @@ class DetectLocaleController < ActionController::Base
 
   def show
     d = locale_fallback(detected_locale)
-    if current_locale != d
+    if current_locale != d.to_s
       I18n.locale = d
       Measurement.increment('detect_locale.foreign')
     else
@@ -17,12 +17,12 @@ class DetectLocaleController < ActionController::Base
 
   private
   def current_locale
-    locale = (supported_locales & [params[:current_locale]]).first
+    locale = (supported_locale_strings & [params[:current_locale]]).first
 
     if locale.present?
-      locale.to_sym
+      locale
     else
-      default_locale
+      default_locale.to_s
     end
   end
 end

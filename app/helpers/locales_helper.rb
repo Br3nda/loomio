@@ -26,6 +26,8 @@ module LocalesHelper
                 'Türkçe' => :tr,
                 'українська мова' => :uk }
 
+  LOCALE_STRINGS = LANGUAGES.values.map(&:to_s)
+
   def locale_name(locale)
     LANGUAGES.key(locale.to_sym)
   end
@@ -34,29 +36,17 @@ module LocalesHelper
     LANGUAGES.values
   end
 
+  def supported_locale_strings
+    LOCALE_STRINGS
+  end
+
   def valid_locale?(locale)
     return false if locale.blank?
-    LANGUAGES.values.include? locale.to_sym
-  end
-
-  def language_options_array
-    options = []
-    LANGUAGES.each_pair do |language, locale|
-      options << [language, current_path_with_locale(locale)]
-    end
-    options
-  end
-
-  def selected_language_option
-    current_path_with_locale(current_locale)
-  end
-
-  def current_path_with_locale(locale)
-    url_for(locale: locale)
+    supported_locale_strings.include? locale.to_s
   end
 
   def selected_locale
-    params[:locale] || current_user_or_visitor.selected_locale
+    params[:locale] || current_user_or_visitor.selected_locale  #could be string
   end
 
   def locale_selected?
@@ -64,7 +54,7 @@ module LocalesHelper
   end
 
   def detected_locale
-    (browser_accepted_locales & supported_locales).first
+    (browser_accepted_locale_strings & supported_locale_strings).first.try(:to_sym)
   end
 
   def default_locale
@@ -89,6 +79,7 @@ module LocalesHelper
 
   def best_available_locale
     selected_locale || detected_locale || default_locale
+      #   str              sym                 sym
   end
 
   def best_cachable_locale
@@ -99,13 +90,32 @@ module LocalesHelper
     first || second || default_locale
   end
 
-  def browser_accepted_locales
+  def browser_accepted_locale_strings
     header = request.env['HTTP_ACCEPT_LANGUAGE']
     parser = HttpAcceptLanguage::Parser.new(header)
-    parser.user_preferred_languages.map &:to_sym
+    parser.user_preferred_languages
   end
 
   def save_detected_locale(user)
     user.update_attribute(:detected_locale, detected_locale)
+  end
+
+
+  # methods for language selector dropdown
+
+  def language_options_array
+    options = []
+    LANGUAGES.each_pair do |language, locale|
+      options << [language, current_path_with_locale(locale)]
+    end
+    options
+  end
+
+  def selected_language_option
+    current_path_with_locale(current_locale)
+  end
+
+  def current_path_with_locale(locale)
+    url_for(locale: locale)
   end
 end
