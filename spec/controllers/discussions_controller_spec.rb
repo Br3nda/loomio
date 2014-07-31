@@ -23,33 +23,6 @@ describe DiscussionsController do
       Group.stub(:find).with(group.key).and_return(group)
     end
 
-    describe "creating a discussion" do
-      before do
-        discussion.stub(:add_comment)
-        discussion.stub(:save).and_return(true)
-        discussion.stub(:group_members_without_discussion_author).and_return([])
-        DiscussionMailer.stub(:spam_new_discussion_created)
-        user.stub_chain(:ability, :authorize!).and_return(true)
-        @discussion_hash = { group_id: group.id, title: "Shinney", private: "true" }
-        app_controller.stub(:current_user).and_return(user)
-      end
-
-      it "does not send email by default" do
-        DiscussionMailer.should_not_receive(:spam_new_discussion_created)
-        get :create, discussion: @discussion_hash
-      end
-
-      it "displays flash success message" do
-        get :create, discussion: @discussion_hash
-        flash[:success].should match(I18n.t("success.discussion_created"))
-      end
-
-      it "redirects to discussion" do
-        get :create, discussion: @discussion_hash
-        response.should redirect_to discussion_url(Discussion.last)
-      end
-    end
-
     context "deleting a discussion" do
       before do
         discussion.stub(:delayed_destroy)

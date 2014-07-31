@@ -87,17 +87,19 @@ class UserMailer < BaseMailer
     end
   end
 
-  def added_to_discussion(user: nil, inviter: nil, discussion: nil, message: nil)
+
+  def new_discussion(discussion, user)
     @user = user
-    @inviter = inviter
     @discussion = discussion
-    @message = message
-    locale = best_locale(user.locale, inviter.locale)
+    @group = discussion.group
+    @rendered_discussion_description = render_rich_text(discussion.description, discussion.uses_markdown)
+    @utm_hash = UTM_EMAIL.merge utm_source: 'new_discussion_created'
+    locale = best_locale(user.locale, discussion.author.locale)
     I18n.with_locale(locale) do
-      mail to: user.email,
-           from: from_user_via_loomio(inviter),
-           reply_to: inviter.name_and_email,
-           subject: t("email.to_join_discussion.subject", who: inviter.name)
+      mail  to: user.email,
+            from: from_user_via_loomio(discussion.author),
+            reply_to: reply_to_address(discussion: discussion, user: user),
+            subject: "#{email_subject_prefix(@group.full_name)} " + t("email.create_discussion.subject", which: @discussion.title)
     end
   end
 end

@@ -74,16 +74,16 @@ FactoryGirl.define do
 
   factory :motion do
     sequence(:name) { Faker::Name.name }
-    association :author, :factory => :user
+    association :author, factory: :user
     description 'Fake description'
     discussion
-    after(:build) do |motion|
-      motion.group.parent.add_member!(motion.author) if motion.group.parent
-      motion.group.add_member!(motion.author)
-    end
-    after(:create) do |motion|
-      motion.group.save
-    end
+    #after(:build) do |motion|
+      #motion.group.parent.add_member!(motion.author) if motion.group.parent
+      #motion.group.add_member!(motion.author)
+    #end
+    #after(:create) do |motion|
+      #motion.group.save
+    #end
   end
 
   factory :current_motion, class: Motion do
