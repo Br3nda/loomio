@@ -40,7 +40,22 @@
       .description.translated-description.translated
         = t(:loading_translation)
 
-  %canvas.pie{id: "graph_#{motion.id}"}
+  .motion-graph.clearfix
+    %canvas.pie{id: "graph_#{motion.id}", width: 230, height: 230}
+
+    .legend
+      .item.yes
+        = t(:'position_verbs.yes')
+        (#{motion.yes_votes_count})
+      .item.abstain
+        = t(:'position_verbs.abstain')
+        (#{motion.abstain_votes_count})
+      .item.no
+        = t(:'position_verbs.no')
+        (#{motion.no_votes_count})
+      .item.block
+        = t(:'position_verbs.block')
+        (#{motion.block_votes_count})
 
   .percentage-to-vote
     - if motion.closed?

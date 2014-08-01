@@ -27,7 +27,7 @@ class MotionsController < GroupBaseController
 
   def index
     if params[:group_id].present?
-      @group = Group.find(params[:group_id])
+      @group = Group.friendly.find(params[:group_id])
       if cannot? :show, @group
         head 401
       else
