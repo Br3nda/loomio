@@ -27,6 +27,7 @@ module LocalesHelper
                 'українська мова' => :uk }
 
   LOCALE_STRINGS = LANGUAGES.values.map(&:to_s)
+  EXPERIMENTAL_LOCALE_STRINGS = %w( ar be-BY cmn hr da eo fi gl ga ga-IE it km lv-LV mk mi fa-IR pl pt-PT ru si-LK sl es-US te )
 
   def locale_name(locale)
     LANGUAGES.key(locale.to_sym)
@@ -37,7 +38,7 @@ module LocalesHelper
   end
 
   def supported_locale_strings
-    LOCALE_STRINGS
+    LOCALE_STRINGS + EXPERIMENTAL_LOCALE_STRINGS
   end
 
   def valid_locale?(locale)
@@ -46,7 +47,15 @@ module LocalesHelper
   end
 
   def selected_locale
-    params[:locale] || current_user_or_visitor.selected_locale  #could be string
+    legal_selected_param || current_user_or_visitor.selected_locale  #string
+  end
+
+  def legal_selected_param
+    if (LOCALE_STRINGS + EXPERIMENTAL_LOCALE_STRINGS).include? params[:locale]
+      params[:locale]
+    else
+      nil
+    end
   end
 
   def locale_selected?

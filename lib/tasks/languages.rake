@@ -11,7 +11,9 @@ namespace :languages do
   task :update => :environment do
     language_info = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/languages', LOGIN)
     locales = locale_array(language_info)
-    puts "current languages = #{locales}"
+    fixed_locales = locales.map {|l| l.gsub('_','-')}
+
+    puts "current languages = " + fixed_locales.join(' ')
 
     # note we're only fetching stats on the Main resource
     language_stats = HTTParty.get('http://www.transifex.com/api/2/project/loomio-1/resource/github-linked-version/stats', LOGIN)
@@ -29,14 +31,23 @@ namespace :languages do
     print "\n"
     Rake::Task["languages:check_variables"].invoke
     print "\n"
-    print "\n"
-    puts "DONE!! ^_^"
+    print " EXPERIMENTAL_LOCALE_STRINGS = %w( "
+    pretty_l = (fixed_locales - LocalesHelper::LOCALE_STRINGS).map do |l|
+      if LocalesHelper::EXPERIMENTAL_LOCALE_STRINGS.include? l
+        grey(l)
+      else
+        green(l)
+      end
+    end.join(' ') + ' )'
+    puts pretty_l
+    print "\n\n"
+    puts " DONE!! ^_^"
     print "\n"
   end
 
   task :check_variables => :environment do
     RESOURCES.values.each do |file|
-      print "CHECKING KEYS AGAINST #{cyan(file)} \n\n"
+      print " CHECKING KEYS AGAINST #{cyan(file)} \n\n"
 
       source_language_hash = YAML.load(File.read("config/locales/#{file}"))
       keys_with_variables = find_keys_with_variables(source_language_hash).map {|key| key[2..-2] }
