@@ -13,11 +13,11 @@ class ExploreController < ApplicationController
   end
 
   def category
-    if params[:id] = 'all'
+    if params[:id] == 'all'
       @groups = Group.visible_to_public.more_than_n_discussions(3).page(params[:page]).per(20)
     else
       @category = Category.find(params[:id])
-      @groups = Group.visible_to_public.in_category(@category).page(params[:page]).per(20)
+      @groups = Group.visible_to_public.in_category(@category).more_than_n_discussions(1).page(params[:page]).per(20)
     end
   end
 
