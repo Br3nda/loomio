@@ -4,7 +4,9 @@ module Translatable
   included do
     has_many :translations, as: :translatable
     before_update :clear_translations, if: :translatable_fields_modified?
-    
+  end
+
+  module InstanceMethods
     def translatable_fields_modified?
       return unless TranslationService.available?
       (self.changed.map(&:to_sym) & self.class.translatable_fields).any?
@@ -14,7 +16,6 @@ module Translatable
       self.translations.delete_all
     end
   end
-
 
   module ClassMethods
     def is_translatable(on: [], load_via: :find, id_field: :id, language_field: :language)
