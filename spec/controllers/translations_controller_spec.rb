@@ -20,28 +20,24 @@ describe TranslationsController do
     end
 
     it "successfully translates a comment" do
-      pending
       post :create, model: :comment, id: comment.id, format: :js
       response.should render_template "comments/comment_translations"
       response.should be_successful
     end
 
     it "successfully translates a discussion" do
-      pending
       post :create, model: :discussion, id: discussion.id, format: :js
       response.should render_template "discussions/discussion_translations"
       response.should be_successful
     end
 
     it "successfully translates a vote" do
-      pending
       post :create, model: :vote, id: vote.id, format: :js
       response.should render_template "votes/vote_translations"
       response.should be_successful
     end
 
     it "successfully translates a motion" do
-      pending
       post :create, model: :motion, id: motion.id, format: :js    
       response.should render_template "motions/motion_translations"
       response.should be_successful

@@ -6,20 +6,17 @@ module Translatable
     before_update :clear_translations, if: :translatable_fields_modified?
   end
 
-  module InstanceMethods
-    def translatable_fields_modified?
-      return unless TranslationService.available?
-      (self.changed.map(&:to_sym) & self.class.translatable_fields).any?
-    end
+  def translatable_fields_modified?
+    return unless TranslationService.available?
+    (self.changed.map(&:to_sym) & self.class.translatable_fields).any?
+  end
 
-    def clear_translations
-      self.translations.delete_all
-    end
+  def clear_translations
+    self.translations.delete_all
   end
 
   module ClassMethods
     def is_translatable(on: [], load_via: :find, id_field: :id, language_field: :language)
-      return unless TranslationService.available?
 
       define_singleton_method :translatable_fields, -> { Array on }
       define_singleton_method :get_instance, ->(id) { send load_via, id }
