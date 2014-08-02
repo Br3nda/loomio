@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LocalesHelper do
-  describe '#browser_accepted_locales' do
+  describe '#browser_accepted_locale_strings' do
     let(:fake_env) { {'HTTP_ACCEPT_LANGUAGE' => 'pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4,es;q=0.2'} }
 
     before do
@@ -9,7 +9,7 @@ describe LocalesHelper do
     end
 
     it 'gives the correct language preference' do
-      helper.browser_accepted_locales.should == ['pt-BR', 'pt', 'en-US', 'en', 'es']
+      helper.browser_accepted_locale_strings.should == ['pt-BR', 'pt', 'en-US', 'en', 'es']
     end
   end
 end
