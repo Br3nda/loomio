@@ -41,14 +41,14 @@ class User < ActiveRecord::Base
 
   has_many :contacts
   has_many :admin_memberships,
-           -> { where('memberships.admin = TRUE AND memberships.is_suspended = FALSE') },
+           -> { where('memberships.admin = ? AND memberships.is_suspended = ?', true, false) },
            class_name: 'Membership',
            dependent: :destroy
 
   has_many :adminable_groups,
+           -> { where( archived_at: nil) },
            through: :admin_memberships,
            class_name: 'Group',
-           conditions: {archived_at: nil},
            source: :group
 
   has_many :memberships,
