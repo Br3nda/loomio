@@ -233,6 +233,7 @@ sr:
     message: "<p>Ovo je <strong>stranica grupe</strong>. Na levoj strani je spisak svih diskusija u ovoj grupi.</p> <p>Kada želite da krupa diskutuje o drugoj temi, pokrenite novu diskusiju.</p>"
   dashboard_helper_text:
     header: "Dobrodošli na svoju Početnu stranu"
+    message: "<p>Početna strana Vam prikazuje sve trenutne diskusije iz svih grupa u kojima ste član.</p><p>Možete početi diskusiju o novoj temi klikom na \"Počni diskusiju\" dugme.</p>"
   prompt_visitor_to_authenticate:
     header: "Prijavi se ili pridruži grupi da učestvuješ"
     body: "Ako ste član ove grupe, morate se prijaviti da učestvujete."

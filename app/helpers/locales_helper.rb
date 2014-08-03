@@ -11,6 +11,7 @@ module LocalesHelper
                 'ελληνικά' => :el,
                 'Français' => :fr,
                 'Indonesian' => :id,
+                'Italiano' => :it,
                 'magyar' => :hu,
                 '日本語' => :ja,
                 '한국어' => :ko,
@@ -19,7 +20,7 @@ module LocalesHelper
                 'Português (Brasil)' => :'pt-BR',
                 'port' => :pt,
                 'română' => :ro,
-                'Srpski' => :sr,
+                'Srpski - Latinica' => :sr,
                 'Srpski - Ćirilica' => :'sr-RS',
                 'Svenska' => :sv,
                 'Tiếng Việt' => :vi,
@@ -27,7 +28,7 @@ module LocalesHelper
                 'українська мова' => :uk }
 
   LOCALE_STRINGS = LANGUAGES.values.map(&:to_s)
-  EXPERIMENTAL_LOCALE_STRINGS = %w( ar be-BY cmn hr da eo fi gl ga ga-IE it km lv-LV mk mi fa-IR pl pt-PT ru si-LK sl es-US te )
+  EXPERIMENTAL_LOCALE_STRINGS = %w( ar be-BY cmn hr da eo fi gl ga ga-IE km lv-LV mk mi fa-IR pl pt-PT ru si-LK sl es-US te )
 
   def locale_name(locale)
     LANGUAGES.key(locale.to_sym)
